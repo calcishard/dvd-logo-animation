@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DVD Animation</title>
+    <style>
+        @font-face {
+            font-family: 'HersheySimplex';
+            src: url('/Hershey-Script-Simplex.pfa.ttf') format('truetype');
+        }
+        body {
+            margin: 0;
+            background-color: black;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        #dvd {
+            position: absolute;
+            font-size: 2em; /* Adjust size as needed */
+            font-family: 'HersheySimplex', sans-serif;
+            color: white;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body>
+    <div id="dvd">DVD</div>
+    <script>
+        const dvdElement = document.getElementById('dvd');
+        let x = Math.floor(Math.random() * (window.innerWidth - 50 + 1) + 50);
+        let y = Math.floor(Math.random() * (window.innerHeight - 50 + 1) + 50);
+        let dx = 4; // Horizontal speed
+        let dy = 2; // Vertical speed
+
+        // Function to generate a random hex color
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Function to change the color of the text
+        function changeTextColor() {
+            const randomColor = getRandomColor();
+            dvdElement.style.color = randomColor; // Change the color of the text
+        }
+
+        function update() {
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            // Update position
+            x += dx;
+            y += dy;
+
+            // Check for collision with the window borders
+            if (x + dvdElement.offsetWidth >= windowWidth || x <= 0) {
+                dx = -dx; // Reverse horizontal direction
+                changeTextColor(); // Change color on horizontal collision
+            }
+            if (y + dvdElement.offsetHeight >= windowHeight || y <= 0) {
+                dy = -dy; // Reverse vertical direction
+                changeTextColor(); // Change color on vertical collision
+            }
+
+            // Set new position
+            dvdElement.style.left = `${x}px`;
+            dvdElement.style.top = `${y}px`;
+
+            requestAnimationFrame(update); // Continue the animation
+        }
+
+        update(); // Start the animation
+    </script>
+</body>
+</html>
